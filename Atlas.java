@@ -87,6 +87,27 @@ public class Atlas extends AdvancedRobot {
         turnGunRight(getHeading() - getGunHeading() + event.getBearing());
         fire(gunPower);
     }
+	
+	 @Override
+    public void onHitRobot(HitRobotEvent event) {
+        // Reagir à colisão com outro robô
+        if (event.isMyFault()) {
+            if (movingForward) {
+                setBack(50);
+                movingForward = false;
+            } else {
+                setAhead(50);
+                movingForward = true;
+            }
+        }
+    }
+	
+	// Método utilitário para normalizar o ângulo de disparo
+    public double normalizeBearing(double angle) {
+        while (angle > 180) angle -= 360;
+        while (angle < -180) angle += 360;
+        return angle;
+    }
 }
 
 
